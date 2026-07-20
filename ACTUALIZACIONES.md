@@ -1,103 +1,158 @@
 # Registro de Actualizaciones
 
-## Semana 3
+# Semana 3
 
-Durante esta versión del proyecto se realizaron mejoras orientadas a fortalecer la aplicación de los pilares de la Programación Orientada a Objetos y mejorar la organización del código.
+Durante esta versión del proyecto se realizó una refactorización del sistema para aplicar los pilares de la Programación Orientada a Objetos (POO), mejorando la organización del código y facilitando su mantenimiento.
 
 ---
 
-### 1. Encapsulamiento
+## 1. Encapsulamiento
 
-Se implementó el uso de atributos protegidos y privados para controlar el acceso a la información de los objetos.
+Se implementó el encapsulamiento mediante propiedades (`@property`) para los atributos `cliente_id`, `tipo` y `monto`.
 
-Además, se incorporaron métodos **getter** y **setter** para consultar y modificar los datos de forma segura, realizando validaciones cuando es necesario.
+Se añadieron getters y setters que validan la información antes de almacenarla, evitando datos inválidos como identificadores vacíos, tipos de transacción incorrectos o montos negativos.
 
 **Beneficios:**
 
-- Mayor seguridad de los datos.
-- Evita modificaciones incorrectas.
-- Mejor control sobre los atributos.
+- Mayor protección de los datos.
+- Validación automática de la información.
+- Mejor control sobre los atributos del objeto.
 
 ---
 
-### 2. Herencia
+## 2. Herencia
 
-Se organizó el sistema utilizando una clase base de maquinaria, de la cual heredan clases específicas como **Tractor** y **Sistema de Riego**.
+La antigua clase `Transaccion` fue reemplazada por una clase base denominada `TransaccionBase`.
+
+A partir de ella se implementaron las clases:
+
+- TransaccionCredito
+- TransaccionDebito
+
+Estas clases reutilizan el comportamiento común de la clase base y únicamente implementan la lógica específica de cada tipo de transacción.
 
 **Beneficios:**
 
 - Reutilización del código.
 - Menor duplicidad.
-- Mejor organización del proyecto.
+- Facilidad para ampliar el sistema.
 
 ---
 
-### 3. Polimorfismo
+## 3. Polimorfismo
 
-Se implementó el polimorfismo mediante la redefinición del método `realizar_operacion()` en cada clase hija.
+Se implementó el método `calcular_impacto()` utilizando polimorfismo.
 
-Cada tipo de maquinaria ejecuta una operación diferente utilizando el mismo nombre de método.
+Cada tipo de transacción calcula su impacto de manera diferente utilizando el mismo método.
 
 **Beneficios:**
 
-- Código más flexible.
-- Fácil incorporación de nuevas máquinas.
+- Código flexible.
+- Fácil incorporación de nuevos tipos de transacción.
 - Mejor mantenimiento.
 
 ---
 
-### 4. Abstracción
+## 4. Método Fábrica
 
-Se definió una clase base que representa las características comunes de toda maquinaria.
-
-Las clases hijas implementan únicamente el comportamiento específico que les corresponde.
+Se implementó la función `crear_transaccion()`, encargada de crear automáticamente el tipo de objeto correspondiente según la información leída desde el archivo.
 
 **Beneficios:**
 
-- Mejor organización.
-- Separación de responsabilidades.
-- Código más fácil de comprender.
+- Centraliza la creación de objetos.
+- Reduce el acoplamiento.
+- Facilita futuras ampliaciones del sistema.
 
 ---
 
-### 5. Asociación entre clases
+## 5. Validación de datos
 
-Se implementó la relación entre la clase **Operador** y las diferentes máquinas agrícolas.
+Se incorporaron validaciones para garantizar que:
 
-Cada operador puede tener asignada una maquinaria y ejecutar las operaciones correspondientes.
+- El identificador del cliente no esté vacío.
+- El tipo de transacción sea válido.
+- El monto no sea negativo.
 
----
-
-### 6. Gestión de mantenimiento
-
-Se creó una clase destinada a registrar la información de los mantenimientos realizados a la maquinaria.
-
-Cada mantenimiento almacena:
-
-- Tipo.
-- Descripción.
-- Costo.
-- Fecha.
+Estas validaciones generan excepciones cuando la información no cumple los requisitos establecidos.
 
 ---
 
-### 7. Gestión de repuestos
+## 6. Documentación
 
-Se implementó una clase para administrar el inventario de repuestos.
-
-Se añadieron validaciones para evitar:
-
-- Stock negativo.
-- Uso de repuestos inexistentes.
-
----
-
-### 8. Documentación del código
-
-Se incorporaron comentarios descriptivos en las diferentes clases y métodos para facilitar el mantenimiento y la comprensión del proyecto.
+Se añadieron comentarios descriptivos en clases, funciones y métodos para facilitar la comprensión y mantenimiento del proyecto.
 
 ---
 
 ## Resultado
 
-Con estas mejoras el sistema presenta una estructura más organizada, reutilizable y fácil de mantener, aplicando correctamente los principios fundamentales de la Programación Orientada a Objetos.
+El sistema quedó estructurado bajo los pilares de la Programación Orientada a Objetos, incorporando Encapsulamiento, Herencia, Polimorfismo y un método fábrica para mejorar la organización y escalabilidad del código.
+
+---
+
+# Semana 4
+
+*(Aquí dejas exactamente la que ya tienes sobre el manejo de excepciones, try-except, registro de errores y continuidad del procesamiento de registros.)*
+
+---
+
+# Semana 5
+
+Durante esta versión del proyecto se realizó una reorganización de la estructura del programa con el objetivo de separar las responsabilidades en diferentes módulos, facilitando el mantenimiento y la reutilización del código.
+
+---
+
+## 1. Separación de responsabilidades
+
+La lógica del sistema fue dividida en diferentes archivos para que cada uno tenga una función específica.
+
+Se creó un módulo encargado de procesar las transacciones y otro destinado únicamente a representar la clase `Transaccion`.
+
+**Beneficios:**
+
+- Código más organizado.
+- Menor acoplamiento entre componentes.
+- Mayor facilidad para realizar modificaciones futuras.
+
+---
+
+## 2. Modularización del proyecto
+
+Las funciones encargadas de leer el archivo, calcular el monto total y filtrar las transacciones fueron agrupadas dentro de un módulo independiente del programa principal.
+
+**Beneficios:**
+
+- Mejor distribución del código.
+- Mayor reutilización de funciones.
+- Facilita el trabajo colaborativo.
+
+---
+
+## 3. Separación entre datos y procesamiento
+
+La clase `Transaccion` quedó dedicada únicamente al almacenamiento y representación de la información, mientras que el procesamiento de los datos se realiza desde un módulo diferente.
+
+**Beneficios:**
+
+- Cumple con el Principio de Responsabilidad Única (SRP).
+- Reduce la dependencia entre clases.
+- Facilita el mantenimiento del sistema.
+
+---
+
+## 4. Organización del punto de entrada
+
+Se creó una función principal (`ejecutar_sistema()`) que centraliza el flujo de ejecución del programa.
+
+Esto permite que todas las operaciones se ejecuten desde un único punto de entrada.
+
+**Beneficios:**
+
+- Mejor organización.
+- Código más legible.
+- Flujo de ejecución más claro.
+
+---
+
+## Resultado
+
+Con estas mejoras el proyecto quedó organizado en módulos independientes, donde cada archivo cumple una responsabilidad específica. Esta estructura facilita el mantenimiento, mejora la reutilización del código y hace que el sistema sea más escalable para futuras versiones.
